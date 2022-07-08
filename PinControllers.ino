@@ -1,6 +1,5 @@
 void setupPins()
 {
-  // Test
   //  datapins are controlled by the arduino
   for (int i = 0; i < 8; i++)
   {
