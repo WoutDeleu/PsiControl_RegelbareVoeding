@@ -1,18 +1,5 @@
-const unsigned int DEFAULT_CHANNEL = 0;
-const unsigned int DEFAULT_COUNT = 1500;
 const int DEFAULT_DELAY_MS = 2;
-const unsigned long DEFAULT_RATE = 100000;
 
-unsigned long rate = DEFAULT_RATE;
-unsigned int channel = DEFAULT_CHANNEL;
-unsigned int count = DEFAULT_COUNT;
-double average = 0;
-double rms = 0;     // rms calculation does not substract average
-double truerms = 0; // truerms calculation substracts average -> AC rms value
-double max = 0;
-double min = 0;
-double pk2pk = 0;
-int DelayMs = DEFAULT_DELAY_MS;
 // bool trigger = false;
 
 void selectChannel(int channel, bool status)
@@ -63,10 +50,10 @@ void selectMeasRange(MeasRange range)
         delay(RELAY_ON_SETTLING);
     }
 }
-double measureRaw()
+double measureRaw(MeasRange range)
 {
     double measuredValue = analogRead(AD0);
     Serial.println("Measured Value = " + String(measuredValue));
-    double measuredVoltage = ((double)3 / (double)1023) * measuredValue;
+    double measuredVoltage = ((double)(range)*5 / (double)1023) * measuredValue;
     return measuredVoltage;
 }

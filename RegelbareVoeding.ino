@@ -110,23 +110,18 @@ const byte AD1 = A15;
 
 /// The maximum number of acknowledge check retries.
 const int MAX_ACK_CHECK_RETRIES = 100;
-
 /// The number of AIO channels for one board.
 const int AIO_CHANNELS = 16;
-
 /// Time-out to switch relay on.
 static int RELAY_ON_SETTLING = 5;
-
 /// Time-out to switch relay off.
 static int RELAY_OFF_SETTLING = 1;
-
 /// The input impedance of the measure circuit. (1M2)
 const double MEAS_INPUT_IMP = 1200000;
 
 /// 2 registers - each 1 byte - in total 2 bytes
 /// The data 0 status register, needed for u an i source
 int dacData0Status;
-
 /// The data 1 status register, needed for u an i source
 int dacData1Status;
 
@@ -136,20 +131,17 @@ int sourceStatus;
 /// 2 registers - each 1 byte - in total 2 bytes
 /// The bus connection 0 status register
 int busCon0Status;
-
 /// The bus connection 1 status register
 int busCon1Status;
 
 /// 2 registers - each 1 byte - in total 2 bytes
 /// The ground connection 0 status register.
 int gndCon0Status;
-
 /// The ground connection 1 status register.
 int gndCon1Status;
 
 /// The measure status register.
 int measureStatus;
-
 /// The U/I bus status register.
 int rangeStatus = 0;
 
@@ -196,15 +188,15 @@ void loop()
   digitalWrite(14, HIGH);
   connectToBus(1, true);
   connectVoltageSource(true);
-  setVoltage(9);
-  Serial.println("***********");
+  setVoltage(3);
   Serial.println();
+  Serial.println("***********");
   double voltage = measureVoltage(1);
   Serial.println("Voltage =  " + String(voltage));
   Serial.println("***********");
   delay(5000);
   digitalWrite(14, LOW);
-  setVoltage(0);
+  // setVoltage(0);
   Serial.println("***********");
   voltage = measureVoltage(1);
   Serial.println("Voltage = " + String(voltage));
