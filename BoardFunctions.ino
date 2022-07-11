@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-MeasRange DEFAULT_BOARD_RANGE = MeasRange::Bi10;
+MeasRange DEFAULT_BOARD_RANGE = MeasRange::Bi30;
 MeasRange boardrange = DEFAULT_BOARD_RANGE;
 
 void writeData(Register chosenReg, int data, int boardNumber)
@@ -354,11 +354,15 @@ void setVoltage(double voltage)
 
 double measureVoltage(int channel)
 {
+    // Check if channelNr is in range [0...15]
     if (isChannelNumberValid(channel))
     {
+        // Define range, depending the size of the voltage
         selectMeasRange(boardrange);
+        // Select channel you want to measure
         selectChannel(channel, true);
         double voltage_measured = measureRaw(boardrange);
+        // Disconnect Channel
         selectChannel(channel, false);
         return voltage_measured;
     }
