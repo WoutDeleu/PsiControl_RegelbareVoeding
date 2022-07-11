@@ -29,6 +29,8 @@ void selectChannel(int channel, bool status)
 }
 void selectMeasRange(MeasRange range)
 {
+    // Range lowers voltage send to measure channel depending on the range
+    // e.g. voltage = 15, Bi30 -> voltage to measuring channel = 5
     int rangeStatusCopy = rangeStatus;
     switch (range)
     {
@@ -53,7 +55,9 @@ void selectMeasRange(MeasRange range)
 double measureRaw(MeasRange range)
 {
     double measuredValue = analogRead(AD0);
-    Serial.println("Measured Value = " + String(measuredValue));
+    // Convert from analog value to correct voltage
+    // 10 bits -> 1023 values
+    // Default 5, needs to be multiplied with ranges
     double measuredVoltage = ((double)(range)*5 / (double)1023) * measuredValue;
     return measuredVoltage;
 }
