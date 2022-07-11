@@ -16,6 +16,8 @@ void setupPins()
 
   pinMode(ACK, INPUT_PULLUP);
   pinMode(ERR, INPUT_PULLUP);
+  pinMode(AD0, INPUT);
+  pinMode(AD1, INPUT);
 
   // Address of the card, can be used to validate card
   for (int i = 0; i < 4; i++)

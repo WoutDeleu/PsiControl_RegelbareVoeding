@@ -5,7 +5,6 @@
 
 #define INPUT_SELECTOR 0
 #define OUTPUT_SELECTOR 1
-
 enum class Register
 {
   // 00H
@@ -118,6 +117,9 @@ const int RESET = 53;
 const int ACK = 28;
 const int ERR = 29;
 
+const byte AD0 = A14;
+const byte AD1 = A15;
+
 /// The maximum number of acknowledge check retries.
 const int MAX_ACK_CHECK_RETRIES = 100;
 
@@ -207,8 +209,15 @@ void loop()
   connectToBus(1, true);
   connectVoltageSource(true);
   setVoltage(-10);
-  // delay(5000);
-  // digitalWrite(14, LOW);
-  // setVoltage(0);
-  // delay(5000);
+  // double voltage = measureVoltage(1);
+  // Serial.println("***********");
+  // Serial.println("Voltage =  " + String(voltage));
+  // Serial.println("***********");
+  delay(5000);
+  digitalWrite(14, LOW);
+  setVoltage(0);
+  // double voltage = measureVoltage(1);
+  // Serial.println("***********");
+  // Serial.println("Voltage =  " + String(voltage));
+  // Serial.println("***********");
 }

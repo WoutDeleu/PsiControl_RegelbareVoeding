@@ -1,5 +1,5 @@
 {
-    "port": "COM10",
+    "port": "COM7",
     "configuration": "cpu=atmega2560",
     "board": "arduino:avr:mega",
     "sketch": "RegelbareVoeding.ino"

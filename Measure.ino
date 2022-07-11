@@ -19,58 +19,58 @@
 // bool trigger = false;
 // MeasRange boardrange = DEFAULT_BOARD_RANGE;
 
-void selectChannel(int channel, bool status)
-{
-    if (status)
-    {
-        if (channel <= 8)
-        {
-            // voltage is connected with the AD input
-            measureStatus = 0x28 | (channel - 1);
-        }
-        else
-        {
-            // voltage is connected with the AD input
-            measureStatus = 0x30 | (channel - 9);
-        }
-    }
-    else
-    {
-        measureStatus &= 0x80;
-    }
-    writeData(Register::MEASURE, measureStatus, boardNumber);
-    if (status)
-    {
-        delay(RELAY_ON_SETTLING);
-    }
-}
-void selectMeasRange(MeasRange range)
-{
-    int rangeStatusCopy = rangeStatus;
-    switch (range)
-    {
-    case MeasRange::Bi10:
-        rangeStatusCopy = (rangeStatusCopy & 0x3F) | 0x40;
-        break;
-    case MeasRange::Bi120:
-        rangeStatusCopy = (rangeStatusCopy & 0x3F) | 0x80;
-        break;
-    default:
-        rangeStatusCopy &= 0x3F;
-        break;
-    }
-    if (rangeStatus != rangeStatusCopy)
-    {
-        rangeStatus = rangeStatusCopy;
-        writeData(Register::RANGE, rangeStatusCopy, boardNumber);
-        delay(RELAY_ON_SETTLING);
-    }
-}
+// void selectChannel(int channel, bool status)
+// {
+//     if (status)
+//     {
+//         if (channel <= 8)
+//         {
+//             // voltage is connected with the AD input
+//             measureStatus = 0x28 | (channel - 1);
+//         }
+//         else
+//         {
+//             // voltage is connected with the AD input
+//             measureStatus = 0x30 | (channel - 9);
+//         }
+//     }
+//     else
+//     {
+//         measureStatus &= 0x80;
+//     }
+//     writeData(Register::MEASURE, measureStatus, boardNumber);
+//     if (status)
+//     {
+//         delay(RELAY_ON_SETTLING);
+//     }
+// }
+// void selectMeasRange(MeasRange range)
+// {
+//     int rangeStatusCopy = rangeStatus;
+//     switch (range)
+//     {
+//     case MeasRange::Bi10:
+//         rangeStatusCopy = (rangeStatusCopy & 0x3F) | 0x40;
+//         break;
+//     case MeasRange::Bi120:
+//         rangeStatusCopy = (rangeStatusCopy & 0x3F) | 0x80;
+//         break;
+//     default:
+//         rangeStatusCopy &= 0x3F;
+//         break;
+//     }
+//     if (rangeStatus != rangeStatusCopy)
+//     {
+//         rangeStatus = rangeStatusCopy;
+//         writeData(Register::RANGE, rangeStatusCopy, boardNumber);
+//         delay(RELAY_ON_SETTLING);
+//     }
+// }
 
-// Daq.measure
-double measure()
-{
-}
+// // Daq.measure
+// double measure()
+// {
+// }
 // void selectChannel(int channel, bool status)
 // {
 //     if (status)

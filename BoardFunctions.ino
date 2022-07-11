@@ -1,3 +1,4 @@
+#include <stdlib.h>
 
 void writeData(Register chosenReg, int data, int boardNumber)
 {
@@ -316,7 +317,7 @@ void printSetVoltageStatus(int status0_before, int status0_after, int status1_be
     printCompactArray(statusGnd, 8);
     Serial.println();
 }
-void setVoltage(int voltage)
+void setVoltage(double voltage)
 {
     Serial.println("Set voltage to " + String(voltage));
     int status0_before = dacData0Status;
@@ -337,7 +338,7 @@ void setVoltage(int voltage)
     }
     else
     {
-        unsigned short rescaledVoltage = (unsigned short)(voltage * ((double)0xFFFF / (double)20));
+        unsigned int rescaledVoltage = (unsigned int)(voltage * ((double)0xFFFF / (double)20));
         Serial.println("Rescaled Voltage: " + String(rescaledVoltage));
         dacData0Status = (int)(rescaledVoltage & 0xFF);
         dacData1Status = (int)((rescaledVoltage >> 8) & 0xFF);
