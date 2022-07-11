@@ -1,3 +1,4 @@
+
 #define SIZE_ADDRESSPINS 8
 #define SIZE_DATAPINS 8
 #define SIZE_CARDPINS 4
@@ -205,11 +206,9 @@ void loop()
   digitalWrite(14, HIGH);
   connectToBus(1, true);
   connectVoltageSource(true);
-  // setVoltage(5);
-  delay(5000);
-  digitalWrite(14, LOW);
-  connectToBus(1, false);
-  connectVoltageSource(false);
+  setVoltage(-10);
+  // delay(5000);
+  // digitalWrite(14, LOW);
   // setVoltage(0);
-  delay(5000);
+  // delay(5000);
 }

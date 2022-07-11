@@ -338,6 +338,7 @@ void setVoltage(int voltage)
     else
     {
         unsigned short rescaledVoltage = (unsigned short)(voltage * ((double)0xFFFF / (double)20));
+        Serial.println("Rescaled Voltage: " + String(rescaledVoltage));
         dacData0Status = (int)(rescaledVoltage & 0xFF);
         dacData1Status = (int)((rescaledVoltage >> 8) & 0xFF);
     }
