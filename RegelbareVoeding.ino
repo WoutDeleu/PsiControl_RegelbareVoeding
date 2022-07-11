@@ -61,19 +61,7 @@ enum class MeasRange
   /// Strip down with a divider factor of 12
   Bi120 = 12,
 };
-enum class DaqRange
-{
-  BIP_10V,
-  BIP_5V,
-  BIP_2V5,
-  BIP_1V25,
-};
-enum class DaqTrigger
-{
-  SW,
-  HW_RISING,
-  HW_FALING,
-};
+
 // BoardNr
 // Must be able to be changed in GUI
 int boardNumber = 0x00;
@@ -208,16 +196,19 @@ void loop()
   digitalWrite(14, HIGH);
   connectToBus(1, true);
   connectVoltageSource(true);
-  setVoltage(-10);
-  // double voltage = measureVoltage(1);
-  // Serial.println("***********");
-  // Serial.println("Voltage =  " + String(voltage));
-  // Serial.println("***********");
+  setVoltage(9);
+  Serial.println("***********");
+  Serial.println();
+  double voltage = measureVoltage(1);
+  Serial.println("Voltage =  " + String(voltage));
+  Serial.println("***********");
   delay(5000);
   digitalWrite(14, LOW);
   setVoltage(0);
-  // double voltage = measureVoltage(1);
-  // Serial.println("***********");
-  // Serial.println("Voltage =  " + String(voltage));
-  // Serial.println("***********");
+  Serial.println("***********");
+  voltage = measureVoltage(1);
+  Serial.println("Voltage = " + String(voltage));
+  Serial.println("***********");
+  Serial.println();
+  delay(5000);
 }

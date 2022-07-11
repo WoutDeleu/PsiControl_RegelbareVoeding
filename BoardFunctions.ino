@@ -1,5 +1,8 @@
 #include <stdlib.h>
 
+MeasRange DEFAULT_BOARD_RANGE = MeasRange::Bi30;
+MeasRange boardrange = DEFAULT_BOARD_RANGE;
+
 void writeData(Register chosenReg, int data, int boardNumber)
 {
     // Serial.println("WRITE OPERATION");
@@ -339,7 +342,7 @@ void setVoltage(double voltage)
     else
     {
         unsigned int rescaledVoltage = (unsigned int)(voltage * ((double)0xFFFF / (double)20));
-        Serial.println("Rescaled Voltage: " + String(rescaledVoltage));
+        // Serial.println("Rescaled Voltage: " + String(rescaledVoltage));
         dacData0Status = (int)(rescaledVoltage & 0xFF);
         dacData1Status = (int)((rescaledVoltage >> 8) & 0xFF);
     }
@@ -349,15 +352,16 @@ void setVoltage(double voltage)
     writeData(Register::DACDATA1, dacData1Status, boardNumber);
 }
 
-// double measureVoltage(int channel)
-// {
-//     if (isChannelNumberValid(channel))
-//     {
-//         selectMeasRange();
-//         gain = (double)boardRange;
-//         selectChannel(channel, true);
-//         measure();
-//         selectChannel(channel, false);
-//         return 0;
-//     }
-// }
+double measureVoltage(int channel)
+{
+    if (isChannelNumberValid(channel))
+    {
+        selectMeasRange(boardrange);
+        selectChannel(channel, true);
+        double voltage_measured = measureRaw();
+        selectChannel(channel, false);
+        return voltage_measured;
+    }
+    else
+        Serial.println("INVALID CHANNEL NUMBER");
+}
