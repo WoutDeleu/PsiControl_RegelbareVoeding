@@ -361,11 +361,19 @@ double measureVoltage(int channel)
         selectMeasRange(boardrange);
         // Select channel you want to measure
         selectChannel(channel, true);
-        double voltage_measured = measureRaw(boardrange);
+        double voltage_measured = measure(boardrange, AD0);
         // Disconnect Channel
         selectChannel(channel, false);
         return voltage_measured;
     }
     else
         Serial.println("INVALID CHANNEL NUMBER");
+}
+double measureCurrentUsource()
+{
+    // connect current channel and select U source.
+    selectIchUsrc(true);
+    double current_measured = measure(boardrange, AD1);
+    // disconnect current channel
+    selectIchUsrc(false);
 }

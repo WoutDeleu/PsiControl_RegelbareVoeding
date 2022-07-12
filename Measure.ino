@@ -1,7 +1,3 @@
-const int DEFAULT_DELAY_MS = 2;
-
-// bool trigger = false;
-
 void selectChannel(int channel, bool status)
 {
     if (status)
@@ -52,12 +48,30 @@ void selectMeasRange(MeasRange range)
         delay(RELAY_ON_SETTLING);
     }
 }
-double measureRaw(MeasRange range)
+// Connect current to the measurement channel (AD1)
+void selectIchUsrc(bool connect)
 {
-    double measuredValue = analogRead(AD0);
-    // Convert from analog value to correct voltage
+    int measureStatusCopy = measureStatus;
+    // Enables current measurement
+    // Toggles b6, and only b6!
+    measureStatusCopy = (connect) ? (measureStatusCopy | 0x40) : (measureStatusCopy & ~0x40);
+    // b7 U(0) or I(1) source current
+    // Controls RE40 -> To choose measurement from voltage_source or current_source
+    measureStatusCopy &= ~0x80;
+    if (measureStatus != measureStatusCopy)
+    {
+        measureStatus = measureStatusCopy;
+        writeData(Register::MEASURE, measureStatus, boardNumber);
+        delay(RELAY_ON_SETTLING);
+    }
+}
+
+double measure(MeasRange range, int pin)
+{
+    double measuredValue = analogRead(pin);
+    // Convert from analog value to correct
     // 10 bits -> 1023 values
     // Default 5, needs to be multiplied with ranges
-    double measuredVoltage = ((double)(range)*5 / (double)1023) * measuredValue;
-    return measuredVoltage;
+    double measured = ((double)(range)*5 / (double)1023) * measuredValue;
+    return measured;
 }
