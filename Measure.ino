@@ -61,6 +61,11 @@ void selectIchUsrc(bool connect)
     if (measureStatus != measureStatusCopy)
     {
         measureStatus = measureStatusCopy;
+        int data[8];
+        Serial.print("Measure data: ");
+        fillArrayWithZeroes(data, 8);
+        formatIntToBin(measureStatus, data, 8);
+        printCompactArray(data, 8);
         writeData(Register::MEASURE, measureStatus, boardNumber);
         delay(RELAY_ON_SETTLING);
     }

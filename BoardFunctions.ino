@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-MeasRange DEFAULT_BOARD_RANGE = MeasRange::Bi30;
+MeasRange DEFAULT_BOARD_RANGE = MeasRange::Bi10;
 MeasRange boardrange = DEFAULT_BOARD_RANGE;
 
 void writeData(Register chosenReg, int data, int boardNumber)
@@ -376,4 +376,5 @@ double measureCurrentUsource()
     double current_measured = measure(boardrange, AD1);
     // disconnect current channel
     selectIchUsrc(false);
+    return current_measured;
 }

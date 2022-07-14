@@ -5,6 +5,8 @@
 
 #define INPUT_SELECTOR 0
 #define OUTPUT_SELECTOR 1
+// #include <CmdMessenger.h>
+
 enum class Register
 {
   // 00H
@@ -106,7 +108,7 @@ const int ACK = 28;
 const int ERR = 29;
 
 const byte AD0 = A14;
-const byte AD1 = A15;
+const byte AD1 = A13;
 
 /// The maximum number of acknowledge check retries.
 const int MAX_ACK_CHECK_RETRIES = 100;
@@ -176,22 +178,49 @@ void setupStatus()
   delay(RELAY_OFF_SETTLING);
 }
 
+/*
+CmdMessenger cmdMessenger = CmdMessenger(Serial);
+enum
+{
+  kSetLed, // Command to request led to be set in specific state
+};
+// Callbacks define on which received commands we take action
+void attachCommandCallbacks()
+{
+  cmdMessenger.attach(kSetLed, OnSetLed);
+}
+bool ledState = 0;
+// Callback function that sets led on or off
+void OnSetLed()
+{
+  // Read led state argument, interpret string as boolean
+  ledState = cmdMessenger.readBoolArg();
+  // Set led
+  digitalWrite(14, ledState ? HIGH : LOW);
+}
+*/
 void setup()
 {
-  Serial.begin(230400);
+  Serial.begin(115200);
   setupPins();
   setupStatus();
-}
 
+  /*
+  // Adds newline to every command
+  cmdMessenger.printLfCr();
+  */
+}
 void loop()
 {
   digitalWrite(14, HIGH);
   connectToBus(1, true);
   connectVoltageSource(true);
-  setVoltage(10);
+  setVoltage(-3);
   Serial.println("***********");
   double current = measureCurrentUsource();
-  Serial.println("Measured current =  " + String(current));
+  Serial.println("Measured current = " + String(current));
+  current = measureVoltage(1);
+  Serial.println("Measured Voltage = " + String(current));
   Serial.println("***********");
   Serial.println();
   delay(5000);
@@ -200,7 +229,11 @@ void loop()
   Serial.println("***********");
   current = measureCurrentUsource();
   Serial.println("Measured current = " + String(current));
+  current = measureVoltage(1);
+  Serial.println("Measured Voltage = " + String(current));
   Serial.println("***********");
   Serial.println();
   delay(5000);
+
+  // cmdMessenger.feedinSerialData();
 }
