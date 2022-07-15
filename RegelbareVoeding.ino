@@ -5,7 +5,7 @@
 
 #define INPUT_SELECTOR 0
 #define OUTPUT_SELECTOR 1
-// #include <CmdMessenger.h>
+#include <CmdMessenger.h>
 
 enum class Register
 {
@@ -178,13 +178,15 @@ void setupStatus()
   delay(RELAY_OFF_SETTLING);
 }
 
-/*
+// Startup cmdMessenger and link to serial port
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
+// List all the commands
 enum
 {
   kSetLed, // Command to request led to be set in specific state
 };
 // Callbacks define on which received commands we take action
+// Link function to enum
 void attachCommandCallbacks()
 {
   cmdMessenger.attach(kSetLed, OnSetLed);
@@ -198,42 +200,44 @@ void OnSetLed()
   // Set led
   digitalWrite(14, ledState ? HIGH : LOW);
 }
-*/
+
 void setup()
 {
   Serial.begin(115200);
   setupPins();
   setupStatus();
 
-  /*
   // Adds newline to every command
   cmdMessenger.printLfCr();
-  */
+
+  // Attach my application's user-defined callback methods
+  attachCommandCallbacks();
 }
 void loop()
 {
-  digitalWrite(14, HIGH);
-  connectToBus(1, true);
-  connectVoltageSource(true);
-  setVoltage(-3);
-  Serial.println("***********");
-  double current = measureCurrentUsource();
-  Serial.println("Measured current = " + String(current));
-  current = measureVoltage(1);
-  Serial.println("Measured Voltage = " + String(current));
-  Serial.println("***********");
-  Serial.println();
-  delay(5000);
-  digitalWrite(14, LOW);
-  setVoltage(0);
-  Serial.println("***********");
-  current = measureCurrentUsource();
-  Serial.println("Measured current = " + String(current));
-  current = measureVoltage(1);
-  Serial.println("Measured Voltage = " + String(current));
-  Serial.println("***********");
-  Serial.println();
-  delay(5000);
+  // digitalWrite(14, HIGH);
+  // connectToBus(1, true);
+  // connectVoltageSource(true);
+  // setVoltage(11);
+  // Serial.println("***********");
+  // double current = measureCurrentUsource();
+  // Serial.println("Measured current = " + String(current));
+  // current = measureVoltage(1);
+  // Serial.println("Measured Voltage = " + String(current));
+  // Serial.println("***********");
+  // Serial.println();
+  // delay(5000);
+  // digitalWrite(14, LOW);
+  // setVoltage(0);
+  // Serial.println("***********");
+  // current = measureCurrentUsource();
+  // Serial.println("Measured current = " + String(current));
+  // current = measureVoltage(1);
+  // Serial.println("Measured Voltage = " + String(current));
+  // Serial.println("***********");
+  // Serial.println();
+  // delay(5000);
 
-  // cmdMessenger.feedinSerialData();
-}
+  String t = cmdMessenger.readStringArg();
+  Serial.print("string is " + t); 
+ }
